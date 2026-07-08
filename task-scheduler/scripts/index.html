@@ -7,22 +7,22 @@
     <script>
         window['ai_edge_gallery_get_result'] = async (data) => {
             try {
+                const jsonData = JSON.parse(data);
                 const now = new Date();
                 
                 const currentDay = now.toLocaleDateString('en-US', { weekday: 'long' });
                 const currentDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
                 const currentTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
                 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                const isoString = now.toISOString();
                 
-                const schedulingContext = `[SYSTEM CLOCK DATA]\nDay: ${currentDay}\nDate: ${currentDate}\nLocal Time: ${currentTime}\nTimezone: ${timeZone}\nISO 8601: ${isoString}\n\nCRITICAL INSTRUCTION: Use the exact time above as your current present moment for all calculations.`;
+                const timeContext = `Current Day: ${currentDay}\nCurrent Date: ${currentDate}\nLocal Time: ${currentTime}\nTimezone: ${timeZone}\n\nInstruction: Provide this exact time, date, or day to the user. Do not perform any scheduling activity using this tool.`;
                 
                 return JSON.stringify({
-                    result: schedulingContext
+                    result: timeContext
                 });
             } catch (e) {
                 return JSON.stringify({
-                    error: `Time Retrieval Failed: ${e.message}`
+                    error: `Failed to get system time: ${e.message}`
                 });
             }
         };
