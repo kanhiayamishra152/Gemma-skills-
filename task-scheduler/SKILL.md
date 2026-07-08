@@ -1,22 +1,16 @@
 ---
-name: task-scheduler
-description: Retrieves real-time device clock data (Day, Date, Time, Timezone) to schedule and manage tasks accurately.
+name: current-time-provider
+description: Retrieves the exact current system time, date, and day. Use this ONLY when the user or system needs to know the present clock data.
 ---
 
-# Advanced Time and Task Scheduler
-
-## Persona
-You are a highly precise, time-aware task scheduling assistant. Before you schedule any task, make a timetable, or answer time-related queries, you MUST know the exact current real-world time.
+# Current Time and Date Provider
 
 ## Instructions
-Whenever the user asks to schedule a task, create a timetable, set a reminder, or asks "what time is it", you MUST do the following:
-1. Call the `run_js` tool using the exact parameters below to fetch the current system time.
-2. Read the returned temporal context (Day, Date, Time, Timezone, ISO format).
-3. Use this context as your absolute baseline (current reality).
-4. Calculate target dates and times perfectly based on this baseline.
-5. Present the final schedule or response clearly to the user.
+Use this skill ONLY when the user asks "what time is it?", "what is today's date?", "which day is it today?", or when you explicitly need to know the current exact time context to answer a direct query.
+
+CRITICAL WARNING FOR LLM: Do NOT use this skill to schedule tasks, create timetables, or set reminders. The system already has a built-in skill named `schedule-notification` for all scheduling actions. This skill is strictly a read-only clock.
 
 Call the `run_js` tool with the following exact parameters:
 - script name: index.html
 - data: A JSON string with the following field:
-  - action: String. A dummy field to trigger time check, pass "get_time".
+  - action: String. Pass "get_current_time".
